@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using WeatherPrediction.Backend;
 
@@ -25,7 +26,12 @@ namespace WeatherPrediction.Controllers
         public IEnumerable<WeatherForecastModel> Get()
         {
             _logger.LogWarning("Getting weather information.");
-            return _repository.GetItems();
+
+            var items = _repository.GetItems();
+
+            _logger.LogWarning("MinTemp is " + items.First().MinimumTemperature);
+            _logger.LogWarning("MaxTemp is " + items.First().MaximumTemperature);
+            return items;
         }
     }
 }

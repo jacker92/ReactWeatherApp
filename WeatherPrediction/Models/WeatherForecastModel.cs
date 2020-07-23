@@ -4,12 +4,21 @@ namespace WeatherPrediction
 {
     public class WeatherForecastModel
     {
-        public DateTime Date { get; set; } = DateTime.Now;
+        public DateTimeOffset Date { get; set; } = DateTimeOffset.MinValue;
 
-        public int TemperatureC { get; set; } = 1;
+        public decimal Temperature { get; set; } = 1;
 
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        public decimal MinimumTemperature { get; set; } = 1;
 
-        public string Summary { get; set; } = "This is summary";
+        public decimal MaximumTemperature { get; set; } = 1;
+        public DateTimeOffset Sunrise { get; set; }
+        public DateTimeOffset Sunset { get; set; }
+        public string Country { get; set; }
+
+        public string FormattedDate => Date.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss");
+
+        public string FormattedSunrise => Sunrise.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss");
+
+        public string FormattedSunset => Sunset.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss");
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Reflection;
 using WeatherPrediction.Backend;
 
 namespace WeatherPrediction
@@ -21,7 +22,6 @@ namespace WeatherPrediction
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllersWithViews();
             services.AddSingleton<IRepository<WeatherForecastModel>, WeatherForecastRepository>();
 
@@ -38,6 +38,7 @@ namespace WeatherPrediction
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
             }
             else
             {
