@@ -14,6 +14,7 @@ namespace WeatherPrediction
         public DateTimeOffset Sunrise { get; set; }
         public DateTimeOffset Sunset { get; set; }
         public string Country { get; set; }
+        public string City { get; set; }
 
         public string FormattedDate => Date.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss");
 

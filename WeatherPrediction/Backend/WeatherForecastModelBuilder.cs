@@ -22,7 +22,8 @@ namespace WeatherPrediction.Backend
                 Sunrise = ((string)jsonObject.sys.sunrise).TryConvertToDateTimeOffset(),
                 Sunset = ((string)jsonObject.sys.sunset).TryConvertToDateTimeOffset(),
                 Country = jsonObject.sys.country,
-                Date = ((string)jsonObject.dt).TryConvertToDateTimeOffset()
+                Date = ((string)jsonObject.dt).TryConvertToDateTimeOffset(),
+                City = jsonObject.name
             };
         }
 

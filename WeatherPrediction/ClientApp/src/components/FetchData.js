@@ -5,11 +5,28 @@ export class FetchData extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { forecasts: [], loading: true };
+        this.state = { forecasts: [], loading: true, searchBoxValue: '' };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.invokeSearch = this.invokeSearch.bind(this);
     }
 
     componentDidMount() {
-        this.populateWeatherData();
+        //this.populateWeatherData();
+    }
+
+    handleChange(event) {
+        this.setState({ searchBoxValue: event.target.value });
+    }
+
+    invokeSearch() {
+        console.log("Search invoked!");
+        console.log(this.state.searchBoxValue);
+
+        this.populateWeatherData(this.state.searchBoxValue);
+        //this.setState({
+        //   // currentCount: this.state.currentCount + 1
+        //});
     }
 
     static renderForecastsTable(forecasts) {
@@ -24,6 +41,7 @@ export class FetchData extends Component {
                         <th>Sunrise</th>
                         <th>Sunset</th>
                         <th>Country</th>
+                        <th>City</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,6 +54,7 @@ export class FetchData extends Component {
                             <td>{forecast.formattedSunrise}</td>
                             <td>{forecast.formattedSunset}</td>
                             <td>{forecast.country}</td>
+                            <td>{forecast.city}</td>
                         </tr>
                     )}
                 </tbody>
@@ -51,14 +70,25 @@ export class FetchData extends Component {
         return (
             <div>
                 <h1 id="tabelLabel" >Weather forecast</h1>
-                <p>This component demonstrates fetching data from the server.</p>
+                Enter search terms: <input type="text" onChange={this.handleChange}></input><button className="btn btn-primary" onClick={this.invokeSearch}>Search</button>
                 {contents}
             </div>
         );
     }
 
-    async populateWeatherData() {
-        const response = await fetch('weatherforecast');
+    async populateWeatherData(searchString) {
+        if (!searchString) {
+            return;
+        }
+        console.log("Invoking populateWeatherData.");
+        const response = await fetch('weatherforecast', {
+            body: JSON.stringify({ "searchString": searchString }),
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        });
         const data = await response.json();
         this.setState({ forecasts: data, loading: false });
     }
