@@ -27,13 +27,11 @@ namespace WeatherPrediction.Controllers
         [HttpPost]
         public IEnumerable<WeatherForecastModel> GetSome([FromBody]object body)
         {
-            _logger.LogInformation("Getting weather information.");
+            var searchTerm = JObject.Parse(body?.ToString())?["searchString"]?.ToString();
 
-            var searchTerm = JObject.Parse(body?.ToString())?["searchString"];
+            _logger.LogInformation($"Getting weather information with searchterm:{searchTerm}.");
 
-            _logger.LogInformation("Searchterm: " + searchTerm);
-
-            var items = _repository.GetItems();
+            var items = _repository.GetItems(searchTerm);
 
             _logger.LogWarning("Got " + items.Count() + " items from repository.");
 

@@ -18,28 +18,16 @@ namespace WeatherPrediction.Backend
         {
             _configuration = configuration;
         }
-
-        public WeatherForecastModel GetItem(string ID)
+        public IEnumerable<WeatherForecastModel> GetItems(string searchString)
         {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<WeatherForecastModel> GetItems()
-        {
-            var items = new List<WeatherForecastModel>();
-
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("X-RapidAPI-Host", _configuration["X-RapidAPI-Host"]);
                 client.DefaultRequestHeaders.Add("X-RapidAPI-Key", _configuration["X-RapidAPI-Key"]);
-                var jsonResponse = client.GetStringAsync(@"https://community-open-weather-map.p.rapidapi.com/weather?id=2172797&units=%2522metric%2522+or+%2522imperial%2522&mode=xml%252C+ht&q=Helsinki").Result;
+                var jsonResponse = client.GetStringAsync(@"https://community-open-weather-map.p.rapidapi.com/find&q=" + searchString).Result;
 
-                var model = WeatherForecastModelBuilder.Build(jsonResponse);
-
-                items.Add(model);
+                return WeatherForecastModelBuilder.Build(jsonResponse);
             }
-
-            return items;
         }
     }
 }
