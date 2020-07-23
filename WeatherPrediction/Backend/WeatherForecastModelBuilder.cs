@@ -14,8 +14,6 @@ namespace WeatherPrediction.Backend
         {
             var jsonObject = JsonConvert.DeserializeObject<dynamic>(json);
 
-            Console.WriteLine("Before modeling, Temp_min is: " + jsonObject.main.temp_min);
-            Console.WriteLine("Before modeling, max is: " + jsonObject.main.temp_max);
             return new WeatherForecastModel()
             {
                 Temperature = jsonObject.main.temp + _convertFromKelvin,

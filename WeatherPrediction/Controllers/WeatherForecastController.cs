@@ -25,12 +25,12 @@ namespace WeatherPrediction.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecastModel> Get()
         {
-            _logger.LogWarning("Getting weather information.");
+            _logger.LogInformation("Getting weather information.");
 
             var items = _repository.GetItems();
 
-            _logger.LogWarning("MinTemp is " + items.First().MinimumTemperature);
-            _logger.LogWarning("MaxTemp is " + items.First().MaximumTemperature);
+            _logger.LogWarning("Got " + items.Count() + " items from repository.");
+
             return items;
         }
     }
