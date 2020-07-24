@@ -36,6 +36,8 @@ namespace WeatherPrediction.Controllers
         [HttpPost]
         public IEnumerable<WeatherForecastModel> Get([FromBody]object body)
         {
+            _logger.LogWarning("In Get method.");
+
             var searchTerm = _requestBodyParser.Parse(body);
 
             if(!_searchTermValidator.IsValid(searchTerm))

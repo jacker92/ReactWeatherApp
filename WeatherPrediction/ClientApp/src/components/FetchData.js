@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+import { FlexibleWidthXYPlot, LineSeries, XAxis, YAxis, HorizontalGridLines, VerticalGridLines } from 'react-vis';
+import 'react-vis/dist/style.css';
 
 export class FetchData extends Component {
+
     static displayName = FetchData.name;
 
     constructor(props) {
         super(props);
-        this.state = { forecasts: [], searchBoxValue: '' };
+        this.state = { forecasts: [], searchBoxValue: '', data: [] };
 
         this.handleChange = this.handleChange.bind(this);
         this.invokeSearch = this.invokeSearch.bind(this);
@@ -19,8 +22,6 @@ export class FetchData extends Component {
     }
 
     invokeSearch() {
-        document.getElementById("searchButton").disabled = true;
-
         this.populateWeatherData(this.state.searchBoxValue);
     }
 
@@ -57,11 +58,36 @@ export class FetchData extends Component {
 
     render() {
         let contents = FetchData.renderForecastsTable(this.state.forecasts);
-
+        const axisStyle = {
+            ticks: {
+                fontSize: '14px',
+                color: '#121212'
+            },
+            title: {
+                fontSize: '16px',
+                color: '#121212'
+            }
+        }
         return (
             <div>
                 <h1 id="tabelLabel" >Weather forecast</h1>
                 Enter search terms: <input type="text" onChange={this.handleChange}></input><button id="searchButton" className="btn btn-primary" onClick={this.invokeSearch}>Search</button>
+                <FlexibleWidthXYPlot height={500}>
+                    <VerticalGridLines style={{ stroke: '#B7E9ED' }} />
+                    <HorizontalGridLines style={{ stroke: '#B7E9ED' }} />
+                    <LineSeries opacity={1} stroke={'#121212'} data={this.state.forecasts.map((obj, index) => { return { x: obj.dateInUnixTime, y: obj.temperature } })} />
+                    <XAxis
+                        xType="time"
+                        tickFormat={(d) => {
+                            const date = new Date(d)
+                            return date.toLocaleString("fi-FI");
+                        }}
+                        hideLine
+                        style={axisStyle}
+                        tickTotal={5}
+                    />
+                    <YAxis />
+                </FlexibleWidthXYPlot>
                 {contents}
             </div>
         );
@@ -72,15 +98,17 @@ export class FetchData extends Component {
             return;
         }
 
+        document.getElementById("searchButton").disabled = true;
+
         const response = await fetch('weatherforecast', {
             body: JSON.stringify({ "searchString": searchString }),
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-                // 'Content-Type': 'application/x-www-form-urlencoded',
             },
         });
         const data = await response.json();
+        console.log(data);
         this.setState({ forecasts: data });
         document.getElementById("searchButton").disabled = false;
     }

@@ -14,8 +14,10 @@ namespace WeatherPrediction.Models
         public string Country { get; set; }
         public string City { get; set; }
 
-        public string FormattedDate => Date.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss");
+        public string FormattedDate => Date.ToLocalTime().ToString("dd.MM.yyyy HH.mm.ss");
 
         public string ID { get; set; }
+
+        public long DateInUnixTime => Date.ToUnixTimeMilliseconds();
     }
 }
