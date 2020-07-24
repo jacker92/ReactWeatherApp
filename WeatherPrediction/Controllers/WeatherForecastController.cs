@@ -34,7 +34,7 @@ namespace WeatherPrediction.Controllers
         }
 
         [HttpPost]
-        public IEnumerable<WeatherForecastModel> GetSome([FromBody]object body)
+        public IEnumerable<WeatherForecastModel> Get([FromBody]object body)
         {
             var searchTerm = _requestBodyParser.Parse(body);
 
@@ -43,9 +43,9 @@ namespace WeatherPrediction.Controllers
                 return new List<WeatherForecastModel>();
             }
 
-            _logger.LogInformation($"Getting weather information with searchterm:{searchTerm}.");
+            _logger.LogInformation($"Getting weather information with searchterm: {searchTerm}.");
 
-            var items = _repository.GetItems(searchTerm);
+            var items = _repository.GetWeatherData(searchTerm);
 
             _logger.LogWarning("Got " + items.Count() + " items from repository.");
 

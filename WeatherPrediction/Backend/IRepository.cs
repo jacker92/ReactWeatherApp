@@ -7,6 +7,6 @@ namespace WeatherPrediction.Backend
 {
     public interface IRepository<T>
     {
-        IEnumerable<T> GetItems(string searchString);
+        IEnumerable<T> GetWeatherData(string searchString);
     }
 }

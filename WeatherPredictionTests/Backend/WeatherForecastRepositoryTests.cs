@@ -24,12 +24,12 @@ namespace WeatherPredictionTests.Backend
         [DataRow("test")]
         public void GetWeatherForecastModels_ShouldReturnItemsWhenCalled(string searchString)
         {
-            _weatherForecastRepository.Setup(x => x.GetItems(searchString)).Returns(new List<WeatherForecastModel>()
+            _weatherForecastRepository.Setup(x => x.GetWeatherData(searchString)).Returns(new List<WeatherForecastModel>()
            { new WeatherForecastModel() 
             
             });
 
-            var result = _weatherForecastRepository.Object.GetItems(searchString);
+            var result = _weatherForecastRepository.Object.GetWeatherData(searchString);
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(IEnumerable<WeatherForecastModel>));
