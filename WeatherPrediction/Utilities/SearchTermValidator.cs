@@ -9,7 +9,17 @@ namespace WeatherPrediction.Utilities
     {
         public bool IsValid(string searchTerm)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(searchTerm))
+            {
+                return false;
+            }
+
+            else if (searchTerm.Length > 255)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
