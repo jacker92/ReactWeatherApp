@@ -21,5 +21,7 @@ namespace WeatherPrediction
         public string FormattedSunrise => Sunrise.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss");
 
         public string FormattedSunset => Sunset.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss");
+
+        public string ID { get; set; }
     }
 }

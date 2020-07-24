@@ -15,17 +15,16 @@ namespace WeatherPrediction.Backend
         {
             var allModels = new List<WeatherForecastModel>();
 
-            foreach (var item in JArray.Parse(JObject.Parse(json)?.ToString()))
+            foreach (var item in JArray.Parse(JObject.Parse(json)?["list"].ToString()))
             {
                 var jsonObject = JsonConvert.DeserializeObject<dynamic>(item.ToString());
 
                 var newModel = new WeatherForecastModel()
                 {
+                    ID = jsonObject.id,
                     Temperature = jsonObject.main.temp + _convertFromKelvin,
                     MinimumTemperature = ((decimal)jsonObject.main.temp_min) + _convertFromKelvin,
                     MaximumTemperature = ((decimal)jsonObject.main.temp_max) + _convertFromKelvin,
-                    Sunrise = ((string)jsonObject.sys.sunrise).TryConvertToDateTimeOffset(),
-                    Sunset = ((string)jsonObject.sys.sunset).TryConvertToDateTimeOffset(),
                     Country = jsonObject.sys.country,
                     Date = ((string)jsonObject.dt).TryConvertToDateTimeOffset(),
                     City = jsonObject.name
