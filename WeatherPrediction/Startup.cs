@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
 using WeatherPrediction.Backend;
+using WeatherPrediction.Models;
+using WeatherPrediction.Utilities;
 
 namespace WeatherPrediction
 {
@@ -24,6 +26,9 @@ namespace WeatherPrediction
         {
             services.AddControllersWithViews();
             services.AddSingleton<IRepository<WeatherForecastModel>, WeatherForecastRepository>();
+            services.AddSingleton<IMemoryCache<WeatherForecastModel>,WeatherForecastModelMemoryCache<WeatherForecastModel>>();
+            services.AddSingleton<IRequestBodyParser, RequestBodyParser>();
+            services.AddSingleton<ISearchTermValidator, SearchTermValidator>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

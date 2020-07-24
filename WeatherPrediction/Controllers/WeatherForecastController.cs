@@ -22,10 +22,15 @@ namespace WeatherPrediction.Controllers
         private readonly IRequestBodyParser _requestBodyParser;
         private readonly ISearchTermValidator _searchTermValidator;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IRepository<WeatherForecastModel> repository)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, 
+                                        IRepository<WeatherForecastModel> repository,
+                                        IRequestBodyParser requestBodyParser,
+                                        ISearchTermValidator searchTermValidator)
         {
             _logger = logger;
             _repository = repository;
+            _requestBodyParser = requestBodyParser;
+            _searchTermValidator = searchTermValidator;
         }
 
         [HttpPost]
