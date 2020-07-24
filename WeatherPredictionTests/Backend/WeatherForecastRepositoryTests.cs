@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using Moq;
 using System.Linq;
+using WeatherPrediction.Models;
 
 namespace WeatherPredictionTests.Backend
 {
