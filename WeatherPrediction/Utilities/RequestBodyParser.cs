@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WeatherPrediction.Controllers
+namespace WeatherPrediction.Utilities
 {
     public class RequestBodyParser : IRequestBodyParser
     {

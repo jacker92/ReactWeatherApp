@@ -1,4 +1,4 @@
-﻿namespace WeatherPrediction.Controllers
+﻿namespace WeatherPrediction.Utilities
 {
     public interface IRequestBodyParser
     {
