@@ -17,6 +17,8 @@ namespace WeatherPrediction.Controllers
     {
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IRepository<WeatherForecastModel> _repository;
+        private readonly IRequestBodyParser _requestBodyParser;
+        private readonly ISearchTermValidator _searchTermValidator;
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger, IRepository<WeatherForecastModel> repository)
         {
@@ -27,7 +29,12 @@ namespace WeatherPrediction.Controllers
         [HttpPost]
         public IEnumerable<WeatherForecastModel> GetSome([FromBody]object body)
         {
-            var searchTerm = JObject.Parse(body?.ToString())?["searchString"]?.ToString();
+            var searchTerm = _requestBodyParser.Parse(body);
+
+            if(!_searchTermValidator.IsValid(searchTerm))
+            {
+                return new List<WeatherForecastModel>();
+            }
 
             _logger.LogInformation($"Getting weather information with searchterm:{searchTerm}.");
 
