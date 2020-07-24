@@ -10,6 +10,11 @@ namespace WeatherPrediction.Utilities
     {
         public string Parse(object body)
         {
+            if(string.IsNullOrWhiteSpace(body?.ToString()))
+            {
+                return string.Empty;
+            }
+
             return JObject.Parse(body?.ToString())?["searchString"]?.ToString();
         }
     }

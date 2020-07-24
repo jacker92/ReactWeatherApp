@@ -5,14 +5,13 @@ export class FetchData extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { forecasts: [], loading: true, searchBoxValue: '' };
+        this.state = { forecasts: [], searchBoxValue: '' };
 
         this.handleChange = this.handleChange.bind(this);
         this.invokeSearch = this.invokeSearch.bind(this);
     }
 
     componentDidMount() {
-        //this.populateWeatherData();
     }
 
     handleChange(event) {
@@ -20,13 +19,9 @@ export class FetchData extends Component {
     }
 
     invokeSearch() {
-        console.log("Search invoked!");
-        console.log(this.state.searchBoxValue);
+        document.getElementById("searchButton").disabled = true;
 
         this.populateWeatherData(this.state.searchBoxValue);
-        //this.setState({
-        //   // currentCount: this.state.currentCount + 1
-        //});
     }
 
     static renderForecastsTable(forecasts) {
@@ -61,14 +56,12 @@ export class FetchData extends Component {
     }
 
     render() {
-        let contents = this.state.loading
-            ? <p><em>Loading...</em></p>
-            : FetchData.renderForecastsTable(this.state.forecasts);
+        let contents = FetchData.renderForecastsTable(this.state.forecasts);
 
         return (
             <div>
                 <h1 id="tabelLabel" >Weather forecast</h1>
-                Enter search terms: <input type="text" onChange={this.handleChange}></input><button className="btn btn-primary" onClick={this.invokeSearch}>Search</button>
+                Enter search terms: <input type="text" onChange={this.handleChange}></input><button id="searchButton" className="btn btn-primary" onClick={this.invokeSearch}>Search</button>
                 {contents}
             </div>
         );
@@ -78,7 +71,7 @@ export class FetchData extends Component {
         if (!searchString) {
             return;
         }
-        console.log("Invoking populateWeatherData.");
+
         const response = await fetch('weatherforecast', {
             body: JSON.stringify({ "searchString": searchString }),
             method: 'POST',
@@ -88,6 +81,7 @@ export class FetchData extends Component {
             },
         });
         const data = await response.json();
-        this.setState({ forecasts: data, loading: false });
+        this.setState({ forecasts: data });
+        document.getElementById("searchButton").disabled = false;
     }
 }
