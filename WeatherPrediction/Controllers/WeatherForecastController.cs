@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WeatherPrediction.Backend;
+using WeatherPrediction.Models;
+using WeatherPrediction.Utilities;
 
 namespace WeatherPrediction.Controllers
 {

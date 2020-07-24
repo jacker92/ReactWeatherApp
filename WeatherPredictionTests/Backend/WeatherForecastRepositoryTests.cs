@@ -6,7 +6,7 @@ using System.Text;
 using Moq;
 using System.Linq;
 
-namespace WeatherPrediction.Backend.Tests
+namespace WeatherPredictionTests.Backend
 {
     [TestClass()]
     public class WeatherForecastRepositoryTests
