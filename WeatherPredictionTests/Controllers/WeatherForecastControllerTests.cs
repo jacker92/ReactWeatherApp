@@ -1,4 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting.Logging;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,12 +15,13 @@ namespace WeatherPredictionTests.Controllers
     public class WeatherForecastControllerTests
     {
         private WeatherForecastController _weatherForecastController;
+        private Mock<ILogger<WeatherForecastController>> _logger;
 
         [TestInitialize]
         public void InitTests()
         {
             _weatherForecastController = new WeatherForecastController(
-                                            null, 
+                                           new Mock<ILogger<WeatherForecastController>>().Object,
                                             null, 
                                             new RequestBodyParser(), 
                                             new SearchTermValidator());
