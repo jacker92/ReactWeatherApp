@@ -71,7 +71,7 @@ export class FetchData extends Component {
         return (
             <div>
                 <h1 id="tabelLabel" >Weather forecast</h1>
-                Enter search terms: <input type="text" onChange={this.handleChange}></input><button id="searchButton" className="btn btn-primary" onClick={this.invokeSearch}>Search</button>
+                Enter search terms: <input type="text" onChange={this.handleChange}autoFocus></input><button id="searchButton" className="btn btn-primary" onClick={this.invokeSearch}>Search</button>
                 <FlexibleWidthXYPlot height={500}>
                     <VerticalGridLines style={{ stroke: '#B7E9ED' }} />
                     <HorizontalGridLines style={{ stroke: '#B7E9ED' }} />
