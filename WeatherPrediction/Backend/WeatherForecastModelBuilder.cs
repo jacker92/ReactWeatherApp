@@ -10,23 +10,22 @@ namespace WeatherPrediction.Backend
     {
         private static readonly decimal _convertFromKelvin = -273.15m;
 
-        public static List<WeatherForecastModel> Build(string fiveDaysPredictionDataJson, string currentWeatherData)
+        public static IEnumerable<WeatherForecastModel> Build(string fiveDaysPredictionDataJson)
         {
             var allModels = new List<WeatherForecastModel>();
 
-            if (string.IsNullOrWhiteSpace(fiveDaysPredictionDataJson) || 
-                string.IsNullOrWhiteSpace(currentWeatherData))
+            if (string.IsNullOrWhiteSpace(fiveDaysPredictionDataJson))
             {
                 return allModels;
             }
 
-            var currentDataJsonObject = JsonConvert.DeserializeObject<dynamic>(currentWeatherData.ToString());
+            var fiveDaysTest = JObject.Parse(fiveDaysPredictionDataJson);
 
             try
             {
-                foreach (var item in JArray.Parse(JObject.Parse(fiveDaysPredictionDataJson)?["list"].ToString()))
+                foreach (var item in JArray.Parse(fiveDaysTest?["list"].ToString()))
                 {
-                    allModels.Add(ProcessEachWeatherForecastModel(currentDataJsonObject, item));
+                    allModels.Add(ProcessEachWeatherForecastModel(fiveDaysTest, item));
                 }
             } catch (JsonReaderException)
             {
@@ -36,23 +35,20 @@ namespace WeatherPrediction.Backend
             return allModels;
         }
 
-        private static WeatherForecastModel ProcessEachWeatherForecastModel(dynamic currentDataJsonObject, JToken item)
+        private static WeatherForecastModel ProcessEachWeatherForecastModel(JToken currentDataJsonObject, JToken jsonObject)
         {
-            var jsonObject = JsonConvert.DeserializeObject<dynamic>(item.ToString());
-
-            var newModel = new WeatherForecastModel()
+            return new WeatherForecastModel()
             {
-                ID = currentDataJsonObject.id,
-                Temperature = jsonObject.main.temp + _convertFromKelvin,
-                MinimumTemperature = ((decimal)jsonObject.main.temp_min) + _convertFromKelvin,
-                MaximumTemperature = ((decimal)jsonObject.main.temp_max) + _convertFromKelvin,
-                Country = currentDataJsonObject.sys.country,
-                Date = ((string)jsonObject.dt).TryConvertToDateTimeOffset(),
-                City = currentDataJsonObject.name,
-                Sunrise = ((string)currentDataJsonObject.sys.sunrise).TryConvertToDateTimeOffset(),
-                Sunset = ((string)currentDataJsonObject.sys.sunset).TryConvertToDateTimeOffset()
+                ID = currentDataJsonObject["city"]["id"].ToString(),
+                Temperature = decimal.Parse(jsonObject["main"]["temp"].ToString()) + _convertFromKelvin,
+                MinimumTemperature = decimal.Parse(jsonObject["main"]["temp_min"].ToString()) + _convertFromKelvin,
+                MaximumTemperature = decimal.Parse(jsonObject["main"]["temp_max"].ToString()) + _convertFromKelvin,
+                Country = currentDataJsonObject["city"]["country"].ToString(),
+                Date = jsonObject["dt"].ToString().TryConvertToDateTimeOffset(),
+                City = currentDataJsonObject["city"]["name"].ToString(),
+                Sunrise = (currentDataJsonObject["city"]["sunrise"].ToString()).TryConvertToDateTimeOffset(),
+                Sunset = (currentDataJsonObject["city"]["sunset"].ToString()).TryConvertToDateTimeOffset()
             };
-            return newModel;
         }
     }
 }

@@ -10,8 +10,7 @@ namespace WeatherPrediction.Backend
     public class WeatherForecastRepository : IRepository<WeatherForecastModel>
     {
         private const string FIVE_DAYS_PREDICTION_API_URI = @"https://community-open-weather-map.p.rapidapi.com/forecast?type=link%252C%20accurate&units=imperial%252C%20metric&q=";
-        private const string CURRENT_WEATHER_DATA_API_URI = @"https://community-open-weather-map.p.rapidapi.com/weather?units=%2522metric%2522%20or%20%2522imperial%2522&q=";
-
+        
         private readonly IConfiguration _configuration;
         private readonly IMemoryCache<WeatherForecastModel> _weatherForecastModelCache;
         private readonly ILogger<WeatherForecastRepository> _logger;
@@ -27,17 +26,14 @@ namespace WeatherPrediction.Backend
             var result = _weatherForecastModelCache.GetOrCreate(searchString, () =>
             {
                 var fiveDaysResponse = ProcessHttpGet(searchString, FIVE_DAYS_PREDICTION_API_URI);
-                var currentWeatherDataResponse = ProcessHttpGet(searchString, CURRENT_WEATHER_DATA_API_URI);
-
-                if (fiveDaysResponse.IsSuccessStatusCode && currentWeatherDataResponse.IsSuccessStatusCode)
+                
+                if (fiveDaysResponse.IsSuccessStatusCode)
                 {
                     var fiveDaysContent = fiveDaysResponse.Content.ReadAsStringAsync();
-                    var currentWeatherDataContent = currentWeatherDataResponse.Content.ReadAsStringAsync();
-                    return WeatherForecastModelBuilder.Build(fiveDaysContent.Result, currentWeatherDataContent.Result);
+                    return WeatherForecastModelBuilder.Build(fiveDaysContent.Result);
                 }
 
                 _logger.LogError("Statuscode from five days forecast api: " + fiveDaysResponse.StatusCode);
-                _logger.LogError("Statuscode from current weather data api: " + currentWeatherDataResponse.StatusCode);
                 return new List<WeatherForecastModel>();
             });
 
