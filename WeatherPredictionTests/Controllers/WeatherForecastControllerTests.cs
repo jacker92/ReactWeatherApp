@@ -1,10 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.VisualStudio.TestTools.UnitTesting.Logging;
 using Moq;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using WeatherPrediction.Controllers;
 using WeatherPrediction.Models;
 using WeatherPrediction.Utilities;
@@ -15,7 +12,6 @@ namespace WeatherPredictionTests.Controllers
     public class WeatherForecastControllerTests
     {
         private WeatherForecastController _weatherForecastController;
-        private Mock<ILogger<WeatherForecastController>> _logger;
 
         [TestInitialize]
         public void InitTests()

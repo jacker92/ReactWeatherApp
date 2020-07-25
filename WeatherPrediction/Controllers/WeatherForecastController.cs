@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using WeatherPrediction.Backend;
 using WeatherPrediction.Models;
 using WeatherPrediction.Utilities;
@@ -36,8 +31,6 @@ namespace WeatherPrediction.Controllers
         [HttpPost]
         public IEnumerable<WeatherForecastModel> Get([FromBody]object body)
         {
-            _logger.LogWarning("In Get method.");
-
             var searchTerm = _requestBodyParser.Parse(body);
 
             if(!_searchTermValidator.IsValid(searchTerm))
@@ -49,7 +42,7 @@ namespace WeatherPrediction.Controllers
 
             var items = _repository.GetWeatherData(searchTerm);
 
-            _logger.LogWarning("Got " + items.Count() + " items from repository.");
+            _logger.LogInformation("Got " + items.Count() + " items from repository.");
 
             return items;
         }

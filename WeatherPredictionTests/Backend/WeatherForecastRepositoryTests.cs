@@ -1,8 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WeatherPrediction.Backend;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using Moq;
 using System.Linq;
 using WeatherPrediction.Models;

@@ -1,9 +1,5 @@
-﻿using Castle.DynamicProxy.Generators;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using System.Text;
 using WeatherPrediction.Backend;
 using WeatherPrediction.Models;
 
