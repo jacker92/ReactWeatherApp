@@ -17,3 +17,7 @@ code {
 input {
     margin-right: 5px;
 }
+
+#xyplot {
+    display:none;
+}

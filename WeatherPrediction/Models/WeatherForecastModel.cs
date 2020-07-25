@@ -19,5 +19,11 @@ namespace WeatherPrediction.Models
         public string ID { get; set; }
 
         public long DateInUnixTime => Date.ToUnixTimeMilliseconds();
+
+        public DateTimeOffset Sunset { get; set; }
+        public DateTimeOffset Sunrise { get; set; }
+
+        public string FormattedSunset => Sunset.ToLocalTime().ToString("dd.MM.yyyy HH.mm.ss");
+        public string FormattedSunrise => Sunrise.ToLocalTime().ToString("dd.MM.yyyy HH.mm.ss");
     }
 }
