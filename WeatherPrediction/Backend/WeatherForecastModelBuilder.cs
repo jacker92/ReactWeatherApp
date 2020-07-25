@@ -46,8 +46,8 @@ namespace WeatherPrediction.Backend
                 Country = currentDataJsonObject["city"]["country"].ToString(),
                 Date = jsonObject["dt"].ToString().TryConvertToDateTimeOffset(),
                 City = currentDataJsonObject["city"]["name"].ToString(),
-                Sunrise = (currentDataJsonObject["city"]["sunrise"].ToString()).TryConvertToDateTimeOffset(),
-                Sunset = (currentDataJsonObject["city"]["sunset"].ToString()).TryConvertToDateTimeOffset()
+                Sunrise = currentDataJsonObject["city"]["sunrise"].ToString().TryConvertToDateTimeOffset(),
+                Sunset = currentDataJsonObject["city"]["sunset"].ToString().TryConvertToDateTimeOffset()
             };
         }
     }

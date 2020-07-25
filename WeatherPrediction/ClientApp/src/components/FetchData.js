@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FlexibleWidthXYPlot, LineSeries, XAxis, YAxis, HorizontalGridLines, VerticalGridLines } from 'react-vis';
 import 'react-vis/dist/style.css';
+import ReactLoading from 'react-loading';
 
 export class FetchData extends Component {
 
@@ -68,7 +69,6 @@ export class FetchData extends Component {
     }
 
     render() {
-        let contents = FetchData.renderForecastsTable(this.state.forecasts);
         const axisStyle = {
             ticks: {
                 fontSize: '14px',
@@ -79,27 +79,38 @@ export class FetchData extends Component {
                 color: '#121212'
             }
         }
+
+        let chart;
+
+        if (this.state.searchInvoked) {
+            chart = <ReactLoading id="loadingSpoke" type="spokes" color="red" height={500} width={500} />
+        } else {
+            chart = <FlexibleWidthXYPlot height={500}>
+                <VerticalGridLines style={{ stroke: '#B7E9ED' }} />
+                <HorizontalGridLines style={{ stroke: '#B7E9ED' }} />
+                <LineSeries opacity={1} stroke={'#121212'} data={this.state.forecasts.map((obj, index) => { return { x: obj.dateInUnixTime, y: obj.temperature } })} />
+                <XAxis
+                    xType="time"
+                    tickFormat={(d) => {
+                        const date = new Date(d)
+                        return date.toLocaleString("fi-FI");
+                    }}
+                    hideLine
+                    style={axisStyle}
+                    tickTotal={5}
+                />
+                <YAxis />
+            </FlexibleWidthXYPlot>
+        }
+
+        let contents = FetchData.renderForecastsTable(this.state.forecasts);
+
         return (
             <div>
                 <h1 id="tabelLabel" >Weather forecast</h1>
                 Enter search terms: <input type="text" onKeyDown={this.handleKeyDown} onChange={this.handleChange} autoFocus></input><button id="searchButton" className="btn btn-primary" onClick={this.invokeSearch}>Search</button>
                 <div id="xyplot">
-                    <FlexibleWidthXYPlot height={500}>
-                        <VerticalGridLines style={{ stroke: '#B7E9ED' }} />
-                        <HorizontalGridLines style={{ stroke: '#B7E9ED' }} />
-                        <LineSeries opacity={1} stroke={'#121212'} data={this.state.forecasts.map((obj, index) => { return { x: obj.dateInUnixTime, y: obj.temperature } })} />
-                        <XAxis
-                            xType="time"
-                            tickFormat={(d) => {
-                                const date = new Date(d)
-                                return date.toLocaleString("fi-FI");
-                            }}
-                            hideLine
-                            style={axisStyle}
-                            tickTotal={5}
-                        />
-                        <YAxis />
-                    </FlexibleWidthXYPlot>
+                    {chart}
                 </div>
                 {contents}
             </div>
@@ -111,7 +122,8 @@ export class FetchData extends Component {
             return;
         }
 
-        this.state.searchInvoked = true;
+        this.setState({ searchInvoked: true });
+
         document.getElementById("searchButton").disabled = true;
 
         const response = await fetch('weatherforecast', {
@@ -122,13 +134,21 @@ export class FetchData extends Component {
             },
         });
         const data = await response.json();
-        document.getElementById("xyplot").style.display = "block";
+
+        if (data.length == 0) {
+            document.getElementById("xyplot").style.display = "none";
+        } else {
+            document.getElementById("xyplot").style.display = "block";
+        }
+
         this.setState({ forecasts: data });
 
         document.getElementById("searchButton").disabled = false;
 
         setTimeout(() => {
-            this.state.searchInvoked = false;
+            this.setState({ searchInvoked: false });
         }, 500)
     }
 }
+
+export default FetchData;

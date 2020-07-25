@@ -21,3 +21,7 @@ input {
 #xyplot {
     display:none;
 }
+
+#fetchDataContainer {
+    padding: 0% 5%;
+}
