@@ -16,8 +16,8 @@ ReactDOM.render(
             <FetchData />
         </div>
 
-  </BrowserRouter>,
-  rootElement);
+    </BrowserRouter>,
+    rootElement);
 
 registerServiceWorker();
 
