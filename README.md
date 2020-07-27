@@ -1,5 +1,7 @@
 # Weather Prediction
 
+![.NET Core](https://github.com/jacker92/WeatherPrediction/workflows/.NET%20Core/badge.svg)
+
 This is a source code for an app that allows user to retrieve weather data.
 
 App uses [OpenWeatherMap's API](https://rapidapi.com/community/api/open-weather-map) for data.
