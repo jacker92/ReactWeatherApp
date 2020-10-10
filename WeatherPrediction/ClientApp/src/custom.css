@@ -30,3 +30,7 @@ input {
     margin: 0 auto;
     margin-bottom: 5%;
 }
+
+#table {
+    width:10px;
+}

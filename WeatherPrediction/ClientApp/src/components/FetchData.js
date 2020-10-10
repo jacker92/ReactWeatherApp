@@ -9,14 +9,31 @@ export class FetchData extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { searchBoxValue: '', data: [], searchInvoked: false };
+        this.state = {
+            searchBoxValue: '',
+            data: [],
+            searchInvoked: false,
+            width: 0,
+            height: 0
+        };
 
         this.handleChange = this.handleChange.bind(this);
         this.invokeSearch = this.invokeSearch.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
 
     componentDidMount() {
+        this.updateWindowDimensions();
+        window.addEventListener('resize', this.updateWindowDimensions);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowDimensions);
+    }
+
+    updateWindowDimensions() {
+        this.setState({ width: window.innerWidth, height: window.innerHeight });
     }
 
     handleChange(event) {
@@ -37,11 +54,11 @@ export class FetchData extends Component {
         return (
             <div>
                 <h1 id="tabelLabel" >Weather forecast</h1>
-                Enter search terms: <input type="text" onKeyDown={this.handleKeyDown} onChange={this.handleChange} autoFocus></input><button id="searchButton" className="btn btn-primary" onClick={this.invokeSearch}>Search</button>
+                Enter location: <input type="text" onKeyDown={this.handleKeyDown} onChange={this.handleChange} autoFocus></input><button id="searchButton" className="btn btn-primary" onClick={this.invokeSearch}>Search</button>
                 <div id="xyplot">
-                    <Chart forecasts={this.state.data} searchInvoked={this.state.searchInvoked} />
+                    <Chart forecasts={this.state.data} searchInvoked={this.state.searchInvoked} height={this.state.height} width={this.state.width} />
                 </div>
-                <Table data={this.state.data}/>
+                <Table id="table" data={this.state.data} width={this.state.width}/>
             </div>
         );
     }

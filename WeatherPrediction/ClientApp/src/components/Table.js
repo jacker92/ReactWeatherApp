@@ -7,8 +7,10 @@ export class Table extends Component {
     }
 
     static renderForecastsTable(forecasts) {
+
+        let width = this?.props?.width == null ? 20 : this.props.width;
         return (
-            <table className='table table-striped' aria-labelledby="tabelLabel">
+            <table width={width} className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -19,7 +21,7 @@ export class Table extends Component {
                         <th>Sunrise</th>
                         <th>Sunset</th>
                         <th>Country</th>
-                        <th>City</th>
+                        <th>Location</th>
                     </tr>
                 </thead>
                 <tbody>
