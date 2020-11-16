@@ -1,4 +1,4 @@
-# Weather Prediction
+# Weather App
 
 ![.NET Core](https://github.com/jacker92/ReactWeatherApp/workflows/.NET%20Core/badge.svg)
 
