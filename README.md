@@ -1,6 +1,6 @@
 # Weather Prediction
 
-![.NET Core](https://github.com/jacker92/WeatherPrediction/workflows/.NET%20Core/badge.svg)
+![.NET Core](https://github.com/jacker92/ReactWeatherApp/workflows/.NET%20Core/badge.svg)
 
 This is a source code for an app that allows user to retrieve weather data.
 
